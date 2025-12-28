@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+  </head>
+  <body>
+    <%- include('./partials/navbar') %>
+    <h1>Login</h1>
+    <form action="/login" method="/post">
+      <label>
+        <span>Enter Email</span>
+        <input type="text" name="email" />
+      </label>
+      <label>
+        <span>Enter Password</span>
+        <input type="text" name="Password" />
+      </label>
+      <button type="submit">Log In</button>
+    </form>
+    <%- include('./partials/scripts') %>
+  </body>
+</html>

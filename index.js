@@ -22,4 +22,4 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/", userRouter);
 
-app.listen(PORT, () => console.log("server started"));
+app.listen(PORT, () => console.log("server tarted"));

@@ -3,7 +3,10 @@ dotenv.config();
 import express from "express";
 import path from "path";
 import userRouter from "./routes/user.js";
+import staticRouter from "./routes/staticRouter.js";
 import connectMongoose from "./connection.js";
+import { checkAuth, checkAuthorization } from "./middlewares/user.js";
+import cookieParser from "cookie-parser";
 
 connectMongoose("mongodb://127.0.0.1:27017/riveria")
   .then(() => console.log("database connected"))
@@ -17,9 +20,12 @@ const PORT = process.env.PORT;
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
+app.use(cookieParser());
+app.use(checkAuth);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use("/riveria", checkAuthorization(["USER", "ADMIN"]), staticRouter);
 app.use("/", userRouter);
 
-app.listen(PORT, () => console.log("server tarted"));
+app.listen(PORT, () => console.log("server started"));

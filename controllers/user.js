@@ -18,7 +18,7 @@ export async function handleUserLogin(req, res) {
 
   user = user.toObject();
 
-  if (!User.matchPassword(body.email, body.password))
+  if (!(await User.matchPassword(body.email, body.password)))
     return res.render("login", { error: "C" });
 
   const token = setUser(user);
@@ -32,12 +32,15 @@ export async function handleUserSignUp(req, res) {
   if (!body) return res.render("signup", { error: "A" });
 
   console.log(body);
+  try {
+    await User.create({
+      email: body.email,
+      password: body.password,
+      fullName: body.fullName,
+    });
+  } catch {
+    return res.render("signup");
+  }
 
-  await User.create({
-    email: body.email,
-    password: body.password,
-    fullName: body.fullName,
-  });
-
-  return res.status(201).redirect("/riveria");
+  return res.status(201).redirect("/login");
 }

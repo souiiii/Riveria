@@ -1,8 +1,16 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Riveria</a>
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top py-3"
+>
+  <div class="container">
+    <a
+      class="navbar-brand fw-bold fs-4 text-dark"
+      href="/riveria"
+      style="letter-spacing: -0.5px"
+    >
+      Riveria<span class="text-primary">.</span>
+    </a>
     <button
-      class="navbar-toggler"
+      class="navbar-toggler border-0"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarNavDropdown"
@@ -12,21 +20,29 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
+    <div
+      class="collapse navbar-collapse justify-content-end"
+      id="navbarNavDropdown"
+    >
+      <ul class="navbar-nav align-items-center gap-3">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/riveria"
+          <a
+            class="nav-link text-secondary fw-medium"
+            aria-current="page"
+            href="/riveria"
             >Home</a
           >
         </li>
 
         <% if (locals.user) { %>
         <li class="nav-item">
-          <a class="nav-link" href="blog/add-new">Add Blog</a>
+          <a class="btn btn-dark btn-sm rounded-pill px-3" href="blog/add-new">
+            <i class="bi bi-pen me-1"></i> Write
+          </a>
         </li>
         <li class="nav-item dropdown">
           <a
-            class="nav-link dropdown-toggle"
+            class="nav-link dropdown-toggle text-secondary fw-medium"
             href="#"
             role="button"
             data-bs-toggle="dropdown"
@@ -34,16 +50,18 @@
           >
             <%= locals.user.fullName %>
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu dropdown-menu-end border-0 shadow mt-2">
             <li><a class="dropdown-item" href="/logout">Logout</a></li>
           </ul>
         </li>
         <% } else { %>
         <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link text-secondary fw-medium" href="/login">Log In</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/signup">Signup</a>
+          <a class="btn btn-primary rounded-pill px-4" href="/signup"
+            >Sign Up</a
+          >
         </li>
         <% } %>
       </ul>
@@ -52,9 +70,21 @@
 </nav>
 
 <% if(locals.error) { %>
-<div class="alert alert-danger" role="alert">
-  <% if( locals.error === 'B' || locals.error === 'C') { %> Invalid
-  Creditentials. Please try again. <% } else { %> Specify required Creditentials
-  please. <% } %>
+<div class="container mt-3">
+  <div
+    class="alert alert-danger alert-dismissible fade show border-0 shadow-sm"
+    role="alert"
+  >
+    <strong>Error:</strong>
+    <% if( locals.error === 'B' || locals.error === 'C') { %> Invalid
+    Credentials. Please try again. <% } else { %> Please specify required
+    credentials. <% } %>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
 </div>
 <% } %>

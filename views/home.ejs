@@ -2,35 +2,80 @@
 <html lang="en">
   <head>
     <%- include('./partials/head') %>
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .blog-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .blog-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05) !important;
+      }
+
+      /* Updated Image Styles */
+      .card-img-top {
+        object-fit: cover;
+        object-position: top; /* Anchors image to the top */
+        height: 320px;
+        width: 100%;
+      }
+    </style>
   </head>
   <body>
     <%- include('./partials/navbar') %>
-    <h1>Blogs</h1>
-    <div class="list-group">
-      <% locals?.blogs?.forEach((blog)=> { %>
-      <a
-        href="/blog/<%= blog._id %>"
-        class="list-group-item list-group-item-action"
-        aria-current="true"
-      >
-        <div style="aspect-ratio: 1/1; max-width: 200px">
-          <img
-            style="max-height: 200px"
-            class="rounded mx-auto d-block"
-            alt="..."
-            src="<%= blog.coverImageUrl %>"
-          />
-        </div>
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1"><%= blog.title %></h5>
-          <small>
-            <%= (new Date(blog.updatedAt)).toLocaleDateString() %>
-          </small>
-        </div>
 
-        <small> <%= blog.author.fullName %> </small>
-      </a>
-      <% }) %>
+    <div class="container py-5">
+      <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="fw-bold display-6 mb-0">Latest Articles</h1>
+      </div>
+
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <% locals?.blogs?.forEach((blog)=> { %>
+        <div class="col">
+          <a
+            href="/blog/<%= blog._id %>"
+            class="text-decoration-none text-dark"
+          >
+            <div
+              class="card h-100 border-0 shadow-sm blog-card rounded-4 overflow-hidden"
+            >
+              <img
+                src="<%= blog.coverImageUrl %>"
+                class="card-img-top"
+                alt="<%= blog.title %>"
+              />
+              <div class="card-body p-4 d-flex flex-column">
+                <div class="mb-2">
+                  <span class="badge bg-light text-secondary border">Blog</span>
+                </div>
+                <h5 class="card-title fw-bold mb-3"><%= blog.title %></h5>
+
+                <div
+                  class="mt-auto d-flex align-items-center justify-content-between pt-3 border-top"
+                >
+                  <small class="text-muted fw-bold">
+                    <%= blog.author.fullName %>
+                  </small>
+                  <small class="text-muted">
+                    <%= (new Date(blog.updatedAt)).toLocaleDateString('en-US', {
+                    month: 'short', day: 'numeric' }) %>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <% }) %>
+      </div>
+
+      <% if (!locals.blogs || locals.blogs.length === 0) { %>
+      <div class="text-center py-5 text-muted">
+        <h3>No blogs found</h3>
+        <p>Check back later for new content.</p>
+      </div>
+      <% } %>
     </div>
     <%- include('./partials/scripts') %>
   </body>

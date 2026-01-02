@@ -3,6 +3,7 @@ dotenv.config();
 import express from "express";
 import path from "path";
 import userRouter from "./routes/user.js";
+import blogRouter from "./routes/blog.js";
 import staticRouter from "./routes/staticRouter.js";
 import connectMongoose from "./connection.js";
 import { checkAuth, checkAuthorization } from "./middlewares/user.js";
@@ -17,6 +18,7 @@ connectMongoose("mongodb://127.0.0.1:27017/riveria")
 const app = express();
 const PORT = process.env.PORT;
 
+app.use(express.static(path.resolve("public")));
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
@@ -26,6 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/riveria", checkAuthorization(["USER", "ADMIN"]), staticRouter);
+app.use("/blog", checkAuthorization(["USER", "ADMIN"]), blogRouter);
 app.use("/", userRouter);
 
 app.listen(PORT, () => console.log("server started"));

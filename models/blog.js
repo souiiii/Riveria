@@ -6,7 +6,7 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    text: {
+    body: {
       type: String,
       required: true,
     },
@@ -14,7 +14,7 @@ const blogSchema = new mongoose.Schema(
       type: String,
     },
     author: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "user",
     },

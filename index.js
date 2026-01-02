@@ -4,6 +4,7 @@ import express from "express";
 import path from "path";
 import userRouter from "./routes/user.js";
 import blogRouter from "./routes/blog.js";
+import commentRouter from "./routes/comment.js";
 import staticRouter from "./routes/staticRouter.js";
 import connectMongoose from "./connection.js";
 import { checkAuth, checkAuthorization } from "./middlewares/user.js";
@@ -27,8 +28,9 @@ app.use(checkAuth);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/riveria", checkAuthorization(["USER", "ADMIN"]), staticRouter);
-app.use("/blog", checkAuthorization(["USER", "ADMIN"]), blogRouter);
+app.use("/riveria", staticRouter);
+app.use("/blog", blogRouter);
+app.use("/comment", checkAuthorization(["USER", "ADMIN"]), commentRouter);
 app.use("/", userRouter);
 
 app.listen(PORT, () => console.log("server started"));
